@@ -2,10 +2,10 @@
   "name": "lang-helper",
   "version": "0.1.0",
   "scripts": {
-    "build": "bsb -make-world",
+    "build": "bsb -make-world && parcel build index.html",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
-    "server": "moduleserve ./ --port 8000",
+    "serve": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -21,7 +21,10 @@
     "reason-react": ">=0.7.1"
   },
   "devDependencies": {
+    "autoprefixer": "^10.1.0",
     "bs-platform": "^8.4.2",
-    "moduleserve": "^0.9.0"
+    "parcel": "^2.0.0-nightly.479",
+    "postcss": "^8.1.0",
+    "tailwindcss": "^2.0.2"
   }
 }

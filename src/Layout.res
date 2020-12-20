@@ -10,5 +10,5 @@ let make = (~title: string, ~children, ~withBack: bool, ~onBack: unit => unit) =
         : React.string("")}
       {React.string(title)}
     </header>
-    <main className="flex-grow flex flex-col"> children </main>
+    <main className="flex-grow flex flex-col w-screen overflow-x-hidden"> children </main>
   </div>

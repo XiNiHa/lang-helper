@@ -18,8 +18,12 @@ module Router = {
       setScreen(_ => Gallery)
       ()
     }
+    let title = () => switch screen {
+    | Gallery => `갤러리`
+    | ItemView => `상세보기`
+    }
 
-    <Layout title={`갤러리`} withBack={screen === ItemView} onBack>
+    <Layout title=title() withBack={screen === ItemView} onBack>
       {switch screen {
       | Gallery => <Gallery items=Item.items selectItem />
       | ItemView => <ItemView items=Item.items initialIndex=index />

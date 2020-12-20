@@ -1,5 +1,6 @@
 .cache/
 .parcel-cache/
+.firebase/
 .DS_Store
 .merlin
 .bsb.lock

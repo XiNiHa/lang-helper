@@ -22,6 +22,7 @@ module Router = {
     <Layout title={`갤러리`} withBack={screen === ItemView} onBack>
       {switch screen {
       | Gallery => <Gallery items=Item.items selectItem />
+      | ItemView => <ItemView items=Item.items initialIndex=index />
       }}
     </Layout>
   }

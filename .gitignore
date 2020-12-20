@@ -9,3 +9,4 @@ npm-debug.log
 /bundleOutput/
 /dist/
 *.bs.js
+/items.txt

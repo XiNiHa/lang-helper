@@ -1,6 +1,6 @@
 @react.component
 let make = (~title: string, ~children, ~withBack: bool, ~onBack: unit => unit) =>
-  <div className="w-screen relative">
+  <div className="w-screen min-h-screen relative flex flex-col">
     <header className="w-screen shadow h-12 flex items-center justify-center font-bold sticky top-0 bg-white">
       {withBack
         ? <button
@@ -10,5 +10,5 @@ let make = (~title: string, ~children, ~withBack: bool, ~onBack: unit => unit) =
         : React.string("")}
       {React.string(title)}
     </header>
-    <main> children </main>
+    <main className="flex-grow flex flex-col"> children </main>
   </div>

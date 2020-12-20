@@ -45,21 +45,19 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     }
   }
 
-  <div>
-    <div
-      className="flex overflow-visible flex-nowrap"
-      style={style()}
-      onMouseDown
-      onMouseUp
-      onMouseLeave
-      onMouseMove>
-      {items
-      ->Js.Array2.map(item =>
-        <div className="w-screen flex-shrink-0">
-          <img src=item.imageSrc className="w-screen h-64 object-contain mb-4" />
-        </div>
-      )
-      ->ReasonReact.array}
-    </div>
+  <div
+    className="flex-grow flex overflow-visible flex-nowrap items-stretch h-full"
+    style={style()}
+    onMouseDown
+    onMouseUp
+    onMouseLeave
+    onMouseMove>
+    {items
+    ->Js.Array2.map(item =>
+      <div className="w-screen flex-shrink-0">
+        <img src=item.imageSrc className="w-screen h-64 object-contain mb-4" />
+      </div>
+    )
+    ->ReasonReact.array}
   </div>
 }

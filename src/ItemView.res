@@ -167,6 +167,7 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
             />
           </div>
         </div>
+        <audio src=item.audioSrc />
       </div>
     )
     ->ReasonReact.array}

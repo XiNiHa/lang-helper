@@ -1,0 +1,10 @@
+{
+  "name": "LangHelper",
+  "short_name": "LH",
+  "theme_color": "#0079d9",
+  "background_color": "#11578f",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/"
+}

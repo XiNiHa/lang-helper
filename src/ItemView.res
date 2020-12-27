@@ -147,7 +147,7 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     {items
     ->Js.Array2.mapi((item, index) =>
       <div key=j`$index` className="w-screen flex-shrink-0 flex flex-col items-stretch">
-        <img src=item.imageSrc className="h-64 object-contain mb-4" />
+        <img src=item.imageSrc className="max-w-full object-contain mb-4" style={ReactDOM.Style.make(~maxHeight="50vh", ())} />
         <div
           className="h-52 mx-4 p-4 shadow-lg flex items-center justify-center rounded-md bg-green-500 sm:mx-40"
           onMouseDown=onAudioDown

@@ -5,7 +5,7 @@ let make = (~title: string, ~children, ~withBack: bool, ~onBack: unit => unit) =
       {withBack
         ? <button
             className="absolute top-1/2 left-0 w-12 h-12 -mt-6 font-bold" onClick={_ => onBack()}>
-            {React.string(`<`)}
+            <i className="fas fa-chevron-left" />
           </button>
         : React.string("")}
       {React.string(title)}

@@ -10,7 +10,6 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
   React.useEffect1(() => Some(() => audio["pause"]()), [])
   let (playing, setPlaying) = React.useState(() => false)
   let (percentage, setPercentage) = React.useState(() => 0.)
-  let (audioDownX, setAudioDownX) = React.useState(() => 0)
   let (touchStartX, setTouchStartX) = React.useState(() => 0.)
 
   let containerStyle = () =>
@@ -47,7 +46,7 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     ReactEvent.Synthetic.preventDefault(e)
     setDown(_ => false)
 
-    if Js.Math.abs_float(offset) > screenWidth *. 0.4 {
+    if Js.Math.abs_float(offset) > screenWidth *. 0.2 {
       setIndex(prev => {
         let newIndex =
           offset > 0.
@@ -64,37 +63,17 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     setOffset(_ => 0.)
   }
 
-  let onAudioDown = e => {
-    let clientX = ReactEvent.Mouse.clientX(e)
-    setAudioDownX(_ => clientX)
-  }
-  let onAudioTouchStart = e => {
-    let clientX = %raw(`e.touches[0].clientX`)
-    setAudioDownX(_ => clientX)
-  }
-  let audioUpHandle = clientX => {
-    let offset = Js.Math.abs_int(audioDownX - clientX)
-    if offset < screenWidth->Belt.Float.toInt / 6 {
-      switch playing {
-      | true => {
-          setPlaying(_ => false)
-          audio["pause"]()
-          audio["currentTime"] = 0
-        }
-      | false => {
-          setPlaying(_ => true)
-          audio["play"]()
-        }
+  let audioClick = e => {
+    switch playing {
+    | true => {
+        setPlaying(_ => false)
+        audio["pause"]()
+      }
+    | false => {
+        setPlaying(_ => true)
+        audio["play"]()
       }
     }
-  }
-  let onAudioUp = e => {
-    let clientX = ReactEvent.Mouse.clientX(e)
-    audioUpHandle(clientX)
-  }
-  let onAudioTouchEnd = e => {
-    let clientX = %raw(`e.changedTouches[0].clientX`)
-    audioUpHandle(clientX)
   }
 
   let onAudioDone = _ => setPlaying(_ => false)
@@ -132,6 +111,7 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     let barWidth = ReactEvent.Touch.target(e)["clientWidth"]
     timeClickHandle(clientX, barWidth)
   }
+  let isPortrait = %raw(`window.innerWidth < window.innerHeight`)
 
   <div
     className="flex-grow flex overflow-visible flex-nowrap items-stretch h-full"
@@ -147,24 +127,23 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     {items
     ->Js.Array2.mapi((item, index) =>
       <div key=j`$index` className="w-screen flex-shrink-0 flex flex-col items-stretch">
-        <img src=item.imageSrc className="max-w-full object-contain mb-4" style={ReactDOM.Style.make(~maxHeight="50vh", ())} />
-        <div
-          className="h-52 mx-4 p-4 shadow-lg flex items-center justify-center rounded-md bg-green-500 sm:mx-40"
-          onMouseDown=onAudioDown
-          onMouseUp=onAudioUp
-          onTouchStart=onAudioTouchStart
-          onTouchEnd=onAudioTouchEnd
-          onTouchCancel=onAudioTouchEnd>
-          <span className="text-3xl text-white font-semibold">
-            {React.string(playing ? `소리 멈추기` : `소리 재생하기`)}
-          </span>
-        </div>
-        <div className="mx-6 h-16 bg-white py-8" onClick=onTimeClick onTouchStart=onTimeTouchStart>
-          <div className="w-full h-px bg-gray-700 relative">
-            <div
-              className="absolute w-6 h-6 -top-3 -ml-3 rounded-xl bg-gray-400 shadow-lg"
-              style={indicatorStyle()}
-            />
+        <img
+          src=item.imageSrc
+          className="max-w-full object-contain mb-4 flex-grow"
+          style={ReactDOM.Style.make(~maxHeight=isPortrait ? "50vh" : "80vh", ())}
+        />
+        <div className="mx-6 flex justify-between items-center">
+          <i className={`fas mr-6 ${playing ? "fa-pause" : "fa-play"}`} onClick=audioClick onTouchEnd=audioClick />
+          <div
+            className="h-16 bg-white py-8 flex-grow"
+            onClick=onTimeClick
+            onTouchStart=onTimeTouchStart>
+            <div className="w-full h-px bg-gray-700 relative">
+              <div
+                className="absolute w-6 h-6 -top-3 -ml-3 rounded-xl bg-gray-400 shadow-lg"
+                style={indicatorStyle()}
+              />
+            </div>
           </div>
         </div>
         <audio src=item.audioSrc />

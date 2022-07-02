@@ -1,13 +1,12 @@
-@bs.val external screenWidth: float = "innerWidth"
-@bs.new external newAudio: string => 'a = "Audio"
+@val external screenWidth: float = "innerWidth"
 
 @react.component
 let make = (~items: array<Item.t>, ~initialIndex: int) => {
   let (index, setIndex) = React.useState(() => initialIndex)
   let (offset, setOffset) = React.useState(() => 0.)
   let (down, setDown) = React.useState(() => false)
-  let (audio, _) = React.useState(() => newAudio(items[index].audioSrc))
-  React.useEffect1(() => Some(() => audio["pause"]()), [])
+  let (audio, _) = React.useState(() => Audio.make(items[index].audioSrc))
+  React.useEffect1(() => Some(() => Audio.pause(audio)), [])
   let (playing, setPlaying) = React.useState(() => false)
   let (percentage, setPercentage) = React.useState(() => 0.)
   let (touchStartX, setTouchStartX) = React.useState(() => 0.)
@@ -52,8 +51,8 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
           offset > 0.
             ? Js.Math.min_int(prev + 1, Js.Array2.length(items))
             : Js.Math.max_int(prev - 1, 0)
-        audio["pause"]()
-        audio["src"] = items[newIndex].audioSrc
+        Audio.pause(audio)
+        audio.src = items[newIndex].audioSrc
         setPlaying(_ => false)
         setPercentage(_ => 0.)
 
@@ -67,37 +66,37 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
     switch playing {
     | true => {
         setPlaying(_ => false)
-        audio["pause"]()
+        Audio.pause(audio)
       }
     | false => {
         setPlaying(_ => true)
-        audio["play"]()
+        Audio.play(audio)
       }
     }
   }
 
   let onAudioDone = _ => setPlaying(_ => false)
   React.useEffect(() => {
-    audio["addEventListener"]("ended", onAudioDone)
+    Audio.addEventListener(audio, "ended", onAudioDone)
 
-    Some(() => audio["removeEventListener"]("ended", onAudioDone))
+    Some(() => Audio.removeEventListener(audio, "ended", onAudioDone))
   })
 
-  let onTimeUpdate = _ => setPercentage(_ => audio["currentTime"] /. audio["duration"] *. 100.)
+  let onTimeUpdate = _ => setPercentage(_ => audio.currentTime /. audio.duration *. 100.)
   React.useEffect(() => {
-    audio["addEventListener"]("timeupdate", onTimeUpdate)
+    Audio.addEventListener(audio, "timeupdate", onTimeUpdate)
 
-    Some(() => audio["removeEventListener"]("timeupdate", onTimeUpdate))
+    Some(() => Audio.removeEventListener(audio, "timeupdate", onTimeUpdate))
   })
 
   let timeClickHandle = (clientX, barWidth) => {
     let leftMargin = (screenWidth -. barWidth) /. 2.
     let percentage = (clientX -. leftMargin) /. barWidth *. 100.
     setPercentage(_ => percentage)
-    audio["currentTime"] =
-      Js.Math.ceil_float(audio["duration"] *. (percentage /. 100.))->Belt.Int.fromFloat
+    audio.currentTime =
+      Js.Math.ceil_float(audio.duration *. (percentage /. 100.))
     if !playing {
-      audio["play"]()
+      Audio.play(audio)
       setPlaying(_ => true)
     }
   }
@@ -149,6 +148,6 @@ let make = (~items: array<Item.t>, ~initialIndex: int) => {
         <audio src=item.audioSrc />
       </div>
     )
-    ->ReasonReact.array}
+    ->React.array}
   </div>
 }

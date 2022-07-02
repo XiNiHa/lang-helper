@@ -2,29 +2,27 @@
   "name": "lang-helper",
   "version": "0.1.0",
   "scripts": {
-    "build": "bsb -make-world && parcel build index.html",
-    "start": "bsb -make-world -w -ws _ ",
-    "clean": "bsb -clean-world",
-    "serve": "parcel index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rescript build && vite build",
+    "start": "rescript build -w",
+    "clean": "rescript clean",
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "yarn build && firebase deploy"
   },
-  "keywords": [
-    "BuckleScript",
-    "ReasonReact",
-    "reason-react"
-  ],
   "author": "XiNiHa<anesin1109@naver.com>",
   "license": "MIT",
   "dependencies": {
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "reason-react": ">=0.7.1"
+    "@rescript/react": "^0.10.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.1.0",
-    "bs-platform": "^8.4.2",
-    "parcel": "^2.0.0-nightly.479",
-    "postcss": "^8.1.0",
-    "tailwindcss": "^2.0.2"
-  }
+    "autoprefixer": "^10.4.7",
+    "firebase-tools": "^11.2.0",
+    "postcss": "^8.4.14",
+    "rescript": "^9.1.4",
+    "tailwindcss": "^3.1.4",
+    "vite": "^2.9.13"
+  },
+  "packageManager": "yarn@3.2.1"
 }

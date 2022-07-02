@@ -1,4 +1,4 @@
-%%raw(`require("./tailwind.css")`)
+%%raw(`import "./tailwind.css"`)
 
 module Router = {
   type screen =
@@ -32,4 +32,4 @@ module Router = {
   }
 }
 
-ReactDOMRe.renderToElementWithId(<Router />, "app")
+ReactDOM18.renderConcurrentRootAtElementWithId(<Router />, "app")

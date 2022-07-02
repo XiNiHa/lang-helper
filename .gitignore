@@ -1,5 +1,4 @@
 .cache/
-.parcel-cache/
 .firebase/
 .DS_Store
 .merlin
@@ -7,7 +6,15 @@
 npm-debug.log
 /lib/bs/
 /node_modules/
-/bundleOutput/
 /dist/
 *.bs.js
 /items.txt
+public/
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

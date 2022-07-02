@@ -3,7 +3,7 @@ type t = {
   audioSrc: string
 }
 
-let items = [
+let words = [
   {
     audioSrc: `001된장찌개.mp3`,
     imageSrc: `001된장찌개.jpeg`

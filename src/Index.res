@@ -3,30 +3,33 @@
 module Router = {
   type screen =
     | Gallery
-    | ItemView
+    | ItemView(int)
+
+  let isItemView = screen =>
+    switch screen {
+    | ItemView(_) => true
+    | _ => false
+    }
 
   @react.component
   let make = () => {
     let (screen, setScreen) = React.useState(() => Gallery)
-    let (index, setIndex) = React.useState(() => 0)
-    let selectItem = index => {
-      setScreen(_ => ItemView)
-      setIndex(_ => index)
-      ()
+    let selectWord = index => {
+      setScreen(_ => ItemView(index))
     }
     let onBack = () => {
       setScreen(_ => Gallery)
-      ()
     }
-    let title = () => switch screen {
-    | Gallery => `갤러리`
-    | ItemView => `상세보기`
-    }
+    let title = () =>
+      switch screen {
+      | Gallery => `갤러리`
+      | ItemView(_) => `상세보기`
+      }
 
-    <Layout title=title() withBack={screen === ItemView} onBack>
+    <Layout title={title()} withBack={isItemView(screen)} onBack>
       {switch screen {
-      | Gallery => <Gallery items=Item.items selectItem />
-      | ItemView => <ItemView items=Item.items initialIndex=index />
+      | Gallery => <Gallery words=Word.words selectWord />
+      | ItemView(index) => <WordView words=Word.words initialIndex=index />
       }}
     </Layout>
   }

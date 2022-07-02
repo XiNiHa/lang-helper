@@ -3846,6 +3846,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     rescript: ^9.1.4
+    rescript-webapi: ^0.6.1
     tailwindcss: ^3.1.4
     vite: ^2.9.13
   languageName: unknown
@@ -5354,6 +5355,13 @@ __metadata:
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
   checksum: a03ef6895445f33a4015300c426699bc66b2b044ba7b670aa238610381b56d3f07c686251740d575e22f4c87531ba662d06937508f0f3c0f1ddc04db3130560b
+  languageName: node
+  linkType: hard
+
+"rescript-webapi@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "rescript-webapi@npm:0.6.1"
+  checksum: eae937583eaa2c2df8c7befc4a0251681beff670618adf8671a99e22e3a0edf44ec407835feba2310bbd84d841f6336a93421f258f8c5e4549b01ba0d75d470a
   languageName: node
   linkType: hard
 

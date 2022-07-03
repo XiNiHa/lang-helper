@@ -34,7 +34,12 @@ let get: Router.Route.handler = (request, env) => {
     ->Js.Json.stringifyAny
     ->Option.getExn
     ->Response.makeWithInit(
-      ResponseInit.make(~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}), ()),
+      ResponseInit.make(
+        ~headers=Fetch.HeadersInit.makeWithArray(
+          [("Content-Type", "application/json")]->Array.concat(Router.corsHeaders),
+        ),
+        (),
+      ),
     )
   })
 }
@@ -89,7 +94,9 @@ let post: Router.Route.handler = (request, env) => {
           ->Option.getExn
           ->Response.makeWithInit(
             ResponseInit.make(
-              ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+              ~headers=Fetch.HeadersInit.makeWithArray(
+                [("Content-Type", "application/json")]->Array.concat(Router.corsHeaders),
+              ),
               (),
             ),
           )
@@ -102,7 +109,9 @@ let post: Router.Route.handler = (request, env) => {
       ->Response.makeWithInit(
         ResponseInit.make(
           ~status=400,
-          ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+          ~headers=Fetch.HeadersInit.makeWithArray(
+            [("Content-Type", "application/json")]->Array.concat(Router.corsHeaders),
+          ),
           (),
         ),
       )

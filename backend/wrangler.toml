@@ -1,0 +1,11 @@
+name = "lang-helper-backend"
+main = "src/Index.bs.js"
+compatibility_date = "2022-07-02"
+
+[build]
+command = "yarn build"
+
+[[kv_namespaces]]
+binding = "words"
+id = "8d79fcd77af143fb8eacc1ce333a02e2"
+preview_id = "fe58d2da86a74ee7baf9b30d50f67065"

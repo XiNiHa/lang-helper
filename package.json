@@ -1,6 +1,10 @@
 {
   "name": "lang-helper",
   "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "backend"
+  ],
   "scripts": {
     "build": "rescript build && vite build",
     "start": "rescript build -w",

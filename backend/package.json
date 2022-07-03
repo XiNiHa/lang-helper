@@ -1,0 +1,17 @@
+{
+  "name": "lang-helper-backend",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@ryyppy/rescript-promise": "^2.1.0",
+    "rescript": "^9.1.4",
+    "rescript-webapi": "^0.6.1",
+    "wrangler": "2.0.15"
+  },
+  "scripts": {
+    "start": "rescript build -w",
+    "build": "rescript build",
+    "dev": "wrangler dev",
+    "deploy": "wrangler publish"
+  }
+}

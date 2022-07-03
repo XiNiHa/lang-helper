@@ -1,0 +1,19 @@
+{
+  "name": "lang-helper-backend",
+  "sources": {
+    "dir" : "src",
+    "subdirs" : true
+  },
+  "bsc-flags": ["-bs-super-errors", "-bs-no-version-header"],
+  "package-specs": [{
+    "module": "es6",
+    "in-source": true
+  }],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": [
+    "rescript-webapi",
+    "@ryyppy/rescript-promise"
+  ],
+  "refmt": 3
+}

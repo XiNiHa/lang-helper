@@ -4,9 +4,9 @@
 .merlin
 .bsb.lock
 npm-debug.log
-/lib/bs/
-/node_modules/
-/dist/
+lib/
+node_modules/
+dist/
 *.bs.js
 /items.txt
 public/

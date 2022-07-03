@@ -10,6 +10,11 @@ binding = "words"
 id = "8d79fcd77af143fb8eacc1ce333a02e2"
 preview_id = "fe58d2da86a74ee7baf9b30d50f67065"
 
+[[kv_namespaces]]
+binding = "credentials"
+id = "1158e7a30f38432fa3ff46be0f6fdf10"
+preview_id = "1158e7a30f38432fa3ff46be0f6fdf10"
+
 [[r2_buckets]]
 binding = "assets"
 bucket_name = "lang-helper-assets"

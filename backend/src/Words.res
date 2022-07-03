@@ -38,3 +38,75 @@ let get: Router.Route.handler = (request, env) => {
     )
   })
 }
+
+let post: Router.Route.handler = (request, env) => {
+  request
+  ->Request.formData
+  ->Promise.then(data => {
+    let name = data->Webapi.FormData.get("name")->Option.map(Webapi.FormData.EntryValue.classify)
+    let image = data->Webapi.FormData.get("image")->Option.map(Webapi.FormData.EntryValue.classify)
+    let audio = data->Webapi.FormData.get("audio")->Option.map(Webapi.FormData.EntryValue.classify)
+
+    switch (name, image, audio) {
+    | (Some(#String(name)), Some(#File(image)), Some(#File(audio))) => {
+        let id =
+          (Js.Date.now() *. 10000. +. Js.Math.random_int(0, 9999)->Belt.Int.toFloat)
+            ->Belt.Float.toString
+
+        let getExt = file => {
+          let splitted = file->Webapi.File.name->Js.String2.split(".")
+          splitted->Array.getExn(splitted->Array.length - 1)
+        }
+
+        let imageExt = getExt(image)
+        let audioExt = getExt(audio)
+
+        let imageKey = `${id}-image.${imageExt}`
+        let audioKey = `${id}-audio.${audioExt}`
+
+        (
+          {"name": name, "image": imageKey, "audio": audioKey}
+          ->Js.Json.stringifyAny
+          ->Option.getExn
+          ->Kv.putText(~namespace=env.words, ~key=id, ~value=_, ()),
+          R2.putReadableStream(
+            ~bucket=env.assets,
+            ~key=imageKey,
+            ~body=image->Webapi.File.stream,
+            (),
+          ),
+          R2.putReadableStream(
+            ~bucket=env.assets,
+            ~key=audioKey,
+            ~body=audio->Webapi.File.stream,
+            (),
+          ),
+        )
+        ->Promise.all3
+        ->Promise.thenResolve(_ => {
+          {"id": id}
+          ->Js.Json.stringifyAny
+          ->Option.getExn
+          ->Response.makeWithInit(
+            ResponseInit.make(
+              ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+              (),
+            ),
+          )
+        })
+      }
+    | _ =>
+      {"error": "invalid formData input"}
+      ->Js.Json.stringifyAny
+      ->Option.getExn
+      ->Response.makeWithInit(
+        ResponseInit.make(
+          ~status=400,
+          ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+          (),
+        ),
+      )
+      ->Promise.resolve
+    }
+  })
+}

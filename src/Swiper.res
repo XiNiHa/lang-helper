@@ -1,5 +1,5 @@
 @react.component
-let make = (~children, ~index, ~setIndex, ~itemsCount, ~onIndexUpdate=?) => {
+let make = (~items, ~index, ~setIndex, ~itemsCount, ~onIndexUpdate=?) => {
   let (offset, setOffset) = React.useState(() => 0.)
   let (down, setDown) = React.useState(() => false)
   let (touchStartX, setTouchStartX) = React.useState(() => 0.)
@@ -54,7 +54,7 @@ let make = (~children, ~index, ~setIndex, ~itemsCount, ~onIndexUpdate=?) => {
   }
 
   <div
-    className="flex-grow flex overflow-visible flex-nowrap items-stretch h-full"
+    className="flex-grow flex overflow-visible flex-nowrap items-stretch h-full relative"
     style={containerStyle()}
     onMouseDown=onContainerDown
     onMouseUp=onContainerUp
@@ -64,6 +64,6 @@ let make = (~children, ~index, ~setIndex, ~itemsCount, ~onIndexUpdate=?) => {
     onTouchEnd=onContainerUp
     onTouchCancel=onContainerUp
     onTouchMove=onContainerTouchMove>
-    {children}
+    {items->Array.sub(Js.Math.max_int(index - 2, 0), Js.Math.min_int(index + 3, Array.length(items)))->React.array}
   </div>
 }

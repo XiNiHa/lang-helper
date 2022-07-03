@@ -2,7 +2,7 @@ open Belt
 
 module Item = {
   @react.component
-  let make = (~word: Word.t, ~active) => {
+  let make = (~word: Word.t, ~active, ~index) => {
     let {play, pause, stop, setTimePercentage, isPlaying, percentage} = UseAudio.use(
       word.audio->Word.getAssetUrl,
     )
@@ -47,7 +47,9 @@ module Item = {
       width < height
     }
 
-    <div className="w-screen flex-shrink-0 flex flex-col items-stretch">
+    <div
+      className="absolute inset-0 w-screen flex-shrink-0 flex flex-col items-stretch"
+      style={ReactDOM.Style.make(~transform=j`translateX(calc($index * 100vw))`, ())}>
       <img
         src={word.image->Word.getAssetUrl}
         className="max-w-full object-contain mb-4 flex-grow"
@@ -80,9 +82,12 @@ module Item = {
 let make = (~words: array<Word.t>, ~initialIndex) => {
   let (index, setIndex) = React.useState(() => initialIndex)
 
-  <Swiper index setIndex itemsCount={Array.length(words)}>
-    {words
-    ->Array.mapWithIndex((i, word) => <Item key=word.image word={word} active={index == i} />)
-    ->React.array}
-  </Swiper>
+  <Swiper
+    index
+    setIndex
+    itemsCount={Array.length(words)}
+    items={words->Array.mapWithIndex((i, word) =>
+      <Item key=word.image word={word} active={index == i} index={i} />
+    )}
+  />
 }

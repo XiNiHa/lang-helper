@@ -9,3 +9,8 @@ command = "yarn build"
 binding = "words"
 id = "8d79fcd77af143fb8eacc1ce333a02e2"
 preview_id = "fe58d2da86a74ee7baf9b30d50f67065"
+
+[[r2_buckets]]
+binding = "assets"
+bucket_name = "lang-helper-assets"
+preview_bucket_name = "lang-helper-assets"

@@ -13,8 +13,14 @@ let use = () => {
       error := Some(e)
       raise(e)
     })
+  
+  let reset = () => {
+    words := None
+    lastFetched := None
+    error := None
+  }
 
-  switch (words.contents, lastFetched.contents, error.contents) {
+  let words = switch (words.contents, lastFetched.contents, error.contents) {
   | (Some(words), Some(lastFetched), None) => {
       if lastFetched < Js.Date.now()->Belt.Int.fromFloat - (60 * 60 * 1000) {
         fetch()->ReactDOM18.throwPromise
@@ -24,10 +30,11 @@ let use = () => {
   | (_, _, Some(e)) => {
       raise(e)
     }
-  | other => {
-      Js.log(other)
+  | _ => {
       fetch()->ReactDOM18.throwPromise
       None
     }
   }
+
+  (words, reset)
 }

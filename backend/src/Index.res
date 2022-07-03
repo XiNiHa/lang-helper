@@ -9,7 +9,7 @@ type exports = {fetch: (Request.t, Env.t) => Promise.t<Response.t>}
 
 let default = {
   fetch: (request, env) => {
-    let defs = Js.Dict.fromArray([])
+    let defs = Js.Dict.fromArray([("/words", Router.Route.make(~get=Words.get, ()))])
     Router.execute(request, env, defs)
   },
 }

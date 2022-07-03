@@ -4,6 +4,7 @@ type action = Fetch(Promise.t<unit>) | SetError | ResetError
 let reducer = (state, action) => {
   switch (state, action) {
   | (Idle, Fetch(_)) => Fetching
+  | (Fetching, SetError) => FetchError
   | (FetchError, ResetError) => Idle
   | _ => state
   }
@@ -31,7 +32,12 @@ let make = (~onAddDone) => {
           (),
         ),
       )
-      ->Promise.thenResolve(_ => onAddDone())
+      ->Promise.thenResolve(res => {
+        switch res->Webapi.Fetch.Response.ok {
+        | true => onAddDone()
+        | false => Js.Exn.raiseError("Request failed")
+        }
+      })
       ->Promise.catch(e => {
         action(SetError)
         Promise.reject(e)

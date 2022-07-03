@@ -34,7 +34,7 @@ let make = (~onAddDone) => {
           ~headers=Webapi.Fetch.HeadersInit.make({
             "Authorization": `Bearer ${tokenEl.current
               ->Js.Nullable.toOption
-              ->Belt.Option.mapWithDefault("", tokenEl => tokenEl->value)}}`,
+              ->Belt.Option.mapWithDefault("", tokenEl => tokenEl->value)}`,
           }),
           (),
         ),

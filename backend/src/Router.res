@@ -15,7 +15,7 @@ module Route = {
 
 type defs = Js.Dict.t<Route.t>
 
-let corsHeaders = [("Access-Control-Allow-Origin", "*")]
+let corsHeaders = [("Access-Control-Allow-Origin", "*"), ("Access-Control-Allow-Headers", "Authorization")]
 
 let execute = (request, env, defs: defs) => {
   let url = request->Request.url->Webapi.Url.make

@@ -25,9 +25,9 @@ let get: Router.Route.handler = (request, env) => {
         ->R2.ObjectBody.body
         ->Response2.makeWithStreamInit(
           ResponseInit.make(
-            ~headers=Fetch.HeadersInit.make({
-              "etag": body->R2.ObjectBody.httpEtag,
-            }),
+            ~headers=Fetch.HeadersInit.makeWithArray(
+              [("etag", body->R2.ObjectBody.httpEtag)]->Array.concat(Router.corsHeaders),
+            ),
             (),
           ),
         )

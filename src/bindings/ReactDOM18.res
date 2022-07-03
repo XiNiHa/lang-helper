@@ -17,3 +17,8 @@ let renderConcurrentRootAtElementWithId: (React.element, string) => unit = (cont
     )
   | Some(element) => createRoot(element)->render(content)
   }
+
+let throwPromise: Promise.t<'a> => unit = p => {
+  let impl = %raw(`function (p) { throw p }`)
+  impl(p)
+}

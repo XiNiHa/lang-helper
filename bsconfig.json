@@ -16,6 +16,7 @@
   "namespace": true,
   "bs-dependencies": [
     "@rescript/react",
+    "@ryyppy/rescript-promise",
     "rescript-webapi"
   ],
   "refmt": 3

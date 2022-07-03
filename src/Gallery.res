@@ -6,9 +6,9 @@ let make = (~words: array<Word.t>, ~selectWord: int => unit) => {
     {words
     ->Array.mapWithIndex((index, word) =>
       <img
-        key=word.imageSrc
+        key=word.image
         className="w-1/3 p-1 object-cover h-24 sm:h-48"
-        src=word.imageSrc
+        src={word.image->Word.getAssetUrl}
         onClick={_ => selectWord(index)}
       />
     )

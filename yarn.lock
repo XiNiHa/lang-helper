@@ -4361,6 +4361,7 @@ __metadata:
   resolution: "lang-helper@workspace:."
   dependencies:
     "@rescript/react": ^0.10.3
+    "@ryyppy/rescript-promise": ^2.1.0
     autoprefixer: ^10.4.7
     firebase-tools: ^11.2.0
     postcss: ^8.4.14

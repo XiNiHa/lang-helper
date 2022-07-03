@@ -8,8 +8,6 @@ lib/
 node_modules/
 dist/
 *.bs.js
-/items.txt
-public/
 
 .pnp.*
 .yarn/*

@@ -1,5 +1,7 @@
 %%raw(`import "./tailwind.css"`)
 
+open Belt
+
 module Router = {
   type screen =
     | Gallery
@@ -14,6 +16,7 @@ module Router = {
   @react.component
   let make = () => {
     let (screen, setScreen) = React.useState(() => Gallery)
+    let words = UseWords.use()
     let selectWord = index => {
       setScreen(_ => ItemView(index))
     }
@@ -27,12 +30,19 @@ module Router = {
       }
 
     <Layout title={title()} withBack={isItemView(screen)} onBack>
-      {switch screen {
-      | Gallery => <Gallery words=Word.words selectWord />
-      | ItemView(index) => <WordView words=Word.words initialIndex=index />
-      }}
+      {
+        let words = words->Option.map(words => words.words->Js.Dict.values)->Option.getExn
+
+        switch screen {
+        | Gallery => <Gallery words selectWord />
+        | ItemView(index) => <WordView words initialIndex=index />
+        }
+      }
     </Layout>
   }
 }
 
-ReactDOM18.renderConcurrentRootAtElementWithId(<Router />, "app")
+ReactDOM18.renderConcurrentRootAtElementWithId(
+  <React.Suspense fallback={React.string("Loading...")}> <Router /> </React.Suspense>,
+  "app",
+)

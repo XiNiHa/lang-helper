@@ -1,26 +1,37 @@
 type t
 
 module Object = {
-  type t
+  module Impl = (
+    T: {
+      type t
+    },
+  ) => {
+    @get external key: T.t => string = "key"
+    @get external version: T.t => string = "version"
+    @get external size: T.t => float = "size"
+    @get external etag: T.t => string = "etag"
+    @get external httpEtag: T.t => string = "httpEtag"
+    @get external uploaded: T.t => Js.Date.t = "uploaded"
+    // TODO: add bindings for R2HttpMetadata
+    // @get external httpMetadata: T.t => HttpMetadata.t = "httpMetadata"
+    @get external customMetadata: T.t => Js.Dict.t<string> = "customMetadata"
+    // TODO: add bindings for R2Range
+    // @get external range: T.t => Range.t = "range"
+    // @send external writeHttpMetadata: (T.t, Headers.t) => void = "writeHttpMetadata";
+  }
 
-  @get external key: t => string = "key"
-  @get external version: t => string = "version"
-  @get external size: t => float = "size"
-  @get external etag: t => string = "etag"
-  @get external httpEtag: t => string = "httpEtag"
-  @get external uploaded: t => Js.Date.t = "uploaded"
-  // TODO: add bindings for R2HttpMetadata
-  // @get external httpMetadata: t => HttpMetadata.t = "httpMetadata"
-  @get external customMetadata: t => Js.Dict.t<string> = "customMetadata"
-  // TODO: add bindings for R2Range
-  // @get external range: t => Range.t = "range"
-  // @send external writeHttpMetadata: (t, Headers.t) => void = "writeHttpMetadata";
+  type t
+  include Impl({
+    type t = t
+  })
 }
 
 module ObjectBody = {
   type t
 
-  external object: t => Object.t = "%identity"
+  include Object.Impl({
+    type t = t
+  })
 
   @get external body: t => Webapi.ReadableStream.t = "body"
   @get external bodyUsed: t => bool = "bodyUsed"
@@ -72,7 +83,7 @@ module Put = {
     // ~httpMetadata: HttpMetadata.t=?
     ~customMetadata: Js.Dict.t<string>=?,
     ~md5: Js.TypedArray2.ArrayBuffer.t=?,
-    ()
+    unit,
   ) => opts = ""
 
   @send

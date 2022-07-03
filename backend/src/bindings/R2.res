@@ -59,7 +59,7 @@ module Get = {
 
   // TODO: implement options binding
 
-  @send external get: (~bucket: t, ~key: string) => Promise.t<ObjectBody.t> = "get"
+  @send external get: (~bucket: t, ~key: string) => Promise.t<option<ObjectBody.t>> = "get"
   // @send external getWithOpts: (~bucket: t, ~key: string, ~opts: opts=?, unit) => Promise.t<Object.t> = "get"
 }
 

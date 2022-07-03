@@ -11,6 +11,7 @@ module Router = {
   @react.component
   let make = () => {
     let (screen, setScreen) = React.useState(() => Gallery)
+    // TODO: implement pagination
     let (words, reset) = UseWords.use()
     let selectWord = index => setScreen(_ => ItemView(index))
     let onBack = () => setScreen(_ => Gallery)

@@ -51,6 +51,7 @@ module Item = {
       className="absolute inset-0 w-screen flex-shrink-0 flex flex-col items-stretch"
       style={ReactDOM.Style.make(~transform=j`translateX(calc($index * 100vw))`, ())}>
       <img
+        crossOrigin="anonymous"
         src={word.image->Word.getAssetUrl}
         className="max-w-full object-contain mb-4 flex-grow"
         style={ReactDOM.Style.make(~maxHeight=isPortrait ? "50vh" : "80vh", ())}
@@ -73,7 +74,7 @@ module Item = {
           </div>
         </div>
       </div>
-      <audio src={word.audio->Word.getAssetUrl} />
+      <audio crossOrigin="anonymous" src={word.audio->Word.getAssetUrl} />
     </div>
   }
 }

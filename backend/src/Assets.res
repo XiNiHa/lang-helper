@@ -26,7 +26,12 @@ let get: Router.Route.handler = (request, env) => {
         ->Response2.makeWithStreamInit(
           ResponseInit.make(
             ~headers=Fetch.HeadersInit.makeWithArray(
-              [("etag", body->R2.ObjectBody.httpEtag)]->Array.concat(Router.corsHeaders),
+              [
+                ("Content-Type", body->R2.ObjectBody.httpMetadata->R2.HttpMetadata.contentType),
+                ("etag", Some(body->R2.ObjectBody.httpEtag)),
+              ]
+              ->Array.keepMap(((k, v)) => v->Option.map(v => (k, v)))
+              ->Array.concat(Router.corsHeaders),
             ),
             (),
           ),

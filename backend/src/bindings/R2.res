@@ -1,5 +1,27 @@
 type t
 
+module HttpMetadata = {
+  type t
+
+  @obj
+  external make: (
+    ~contentType: option<string>=?,
+    ~contentLanguage: option<string>=?,
+    ~contentDisposition: option<string>=?,
+    ~contentEncoding: option<string>=?,
+    ~cacheControl: option<string>=?,
+    ~cacheExpiry: Js.Date.t=?,
+    unit,
+  ) => t = ""
+
+  @get external contentType: t => option<string> = "contentType"
+  @get external contentLanguage: t => option<string> = "contentLanguage"
+  @get external contentDisposition: t => option<string> = "contentDisposition"
+  @get external contentEncoding: t => option<string> = "contentEncoding"
+  @get external cacheControl: t => option<string> = "cacheControl"
+  @get external cacheExpiry: t => option<Js.Date.t> = "cacheExpiry"
+}
+
 module Object = {
   module Impl = (
     T: {
@@ -12,8 +34,7 @@ module Object = {
     @get external etag: T.t => string = "etag"
     @get external httpEtag: T.t => string = "httpEtag"
     @get external uploaded: T.t => Js.Date.t = "uploaded"
-    // TODO: add bindings for R2HttpMetadata
-    // @get external httpMetadata: T.t => HttpMetadata.t = "httpMetadata"
+    @get external httpMetadata: T.t => HttpMetadata.t = "httpMetadata"
     @get external customMetadata: T.t => Js.Dict.t<string> = "customMetadata"
     // TODO: add bindings for R2Range
     // @get external range: T.t => Range.t = "range"
@@ -79,8 +100,7 @@ module Put = {
 
   @obj
   external makeOpts: (
-    // TODO: add bindings for R2HttpMetadata
-    // ~httpMetadata: HttpMetadata.t=?
+    ~httpMetadata: HttpMetadata.t=?,
     ~customMetadata: Js.Dict.t<string>=?,
     ~md5: Js.TypedArray2.ArrayBuffer.t=?,
     unit,

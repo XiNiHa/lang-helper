@@ -103,12 +103,26 @@ let post: Router.Route.handler = (request, env) => {
                 ~bucket=env.assets,
                 ~key=imageKey,
                 ~body=image->Webapi.File.stream,
+                ~opts=R2.Put.makeOpts(
+                  ~httpMetadata=R2.HttpMetadata.make(
+                    ~contentType=image->Webapi.File.type_->Some,
+                    ()
+                  ),
+                  (),
+                ),
                 (),
               ),
               R2.putReadableStream(
                 ~bucket=env.assets,
                 ~key=audioKey,
                 ~body=audio->Webapi.File.stream,
+                ~opts=R2.Put.makeOpts(
+                  ~httpMetadata=R2.HttpMetadata.make(
+                    ~contentType=audio->Webapi.File.type_->Some,
+                    ()
+                  ),
+                  (),
+                ),
                 (),
               ),
             )
